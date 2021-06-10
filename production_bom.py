@@ -9,7 +9,7 @@ import openpyxl
 import string
 
 
-def production_bom(bom_production_path, bom_path):
+def production_bom(bom_production_path, bom_path, supplier='Alinco'):
     """Checks if component names in the excel file bom_path are present in bom_production path.
     For these, indicates the component has been ordered and the PartSupplier is Alinco in the file bom_path."""
 
@@ -18,7 +18,7 @@ def production_bom(bom_production_path, bom_path):
 
     mask = bom.Component.isin(bom_production.Component)
     bom.loc[mask, 'Status'] = 'B'
-    bom.loc[mask, 'PartSupplier'] = 'Alinco'
+    bom.loc[mask, 'PartSupplier'] = supplier
 
     wb = openpyxl.load_workbook(bom_path)
     ws = wb.active
