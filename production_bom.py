@@ -7,6 +7,8 @@ Date: 10/06/2021
 import pandas as pd
 import openpyxl
 import string
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 
 
 def production_bom(bom_production_path, bom_path, supplier='Alinco'):
@@ -44,4 +46,6 @@ def production_bom(bom_production_path, bom_path, supplier='Alinco'):
 
 
 if __name__ == '__main__':
-    production_bom(bom_production_path='.xlsx', bom_path='.xlsx')
+    Tk().withdraw()
+    production_bom(bom_production_path=askopenfilename(title='Choose production BOM list'),
+                   bom_path=askopenfilename(title='Choose main BOM list'))
