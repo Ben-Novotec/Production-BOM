@@ -1,2 +1,4 @@
 pandas~=1.2.3
 openpyxl~=3.0.7
+kivymd~=0.104.2
+plyer~=2.0.0
