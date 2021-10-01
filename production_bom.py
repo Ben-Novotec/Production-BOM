@@ -1,8 +1,7 @@
 """
-Checks if components are ordered at Alinco by comparing the main bom list with the production bom list.
-Then fills in the Status and PartSupplier column for these components.
+Checks if components are ordered by comparing the main bom list with the production bom list.
 Author: Ben Van Raemdonck
-Date: 10/06/2021
+Date: 1/10/2021
 """
 import pandas as pd
 import openpyxl
@@ -12,14 +11,15 @@ from my_openpyxl import find_column, write_column
 from datetime import date
 
 
-def production_bom(bom_production_path, bom_path, supplier='Alinco', status='B',
-                   besteldatum=date.today().strftime('%d/%m')):
+def production_bom(bom_production_path: str, bom_path: str, supplier='Alinco', status='B',
+                   besteldatum=date.today().strftime('%d/%m'), leveringsdatum=''):
     """Checks if component names in the excel file bom_path are present in bom_production path.
     For these, indicates the component has been ordered and the PartSupplier is Alinco in the file bom_path."""
 
     # read excel files
     bom_production = pd.read_excel(bom_production_path, header=1, usecols=['Component', 'Quantity'])
-    bom = pd.read_excel(bom_path, header=1, usecols=['Besteldatum', 'Component', 'Quantity', 'Status', 'PartSupplier'])
+    bom = pd.read_excel(bom_path, header=1,
+                        usecols=['Besteldatum', 'Leveringsdatum', 'Component', 'Quantity', 'Status', 'PartSupplier'])
 
     # find components that are in the production bom list
     mask = bom.Component.isin(bom_production.Component)
@@ -27,6 +27,7 @@ def production_bom(bom_production_path, bom_path, supplier='Alinco', status='B',
     bom.loc[mask, 'Status'] = status
     bom.loc[mask, 'PartSupplier'] = supplier
     bom.loc[mask, 'Besteldatum'] = besteldatum
+    bom.loc[mask, 'Leveringsdatum'] = leveringsdatum
 
     # open the excel file with openpyxl
     wb = openpyxl.load_workbook(bom_path)
@@ -35,10 +36,12 @@ def production_bom(bom_production_path, bom_path, supplier='Alinco', status='B',
     col_status = find_column(ws, 'Status')
     col_partsupplier = find_column(ws, 'PartSupplier')
     col_besteldatum = find_column(ws, 'Besteldatum')
+    col_leveringsdatum = find_column(ws, 'Leveringsdatum')
     # write the columns
     write_column(ws, col_status, bom['Status'])
     write_column(ws, col_partsupplier, bom['PartSupplier'])
     write_column(ws, col_besteldatum, bom['Besteldatum'])
+    write_column(ws, col_leveringsdatum, bom['Leveringsdatum'])
 
     wb.save(bom_path)
 

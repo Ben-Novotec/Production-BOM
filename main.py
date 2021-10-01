@@ -31,7 +31,8 @@ class MainApp(MDApp):
                        self.bom_path,
                        supplier=self.root.ids.PartSupplier.text,
                        status=self.root.ids.Status.text,
-                       besteldatum=self.root.ids.Besteldatum.text)
+                       besteldatum=self.root.ids.Besteldatum.text,
+                       leveringsdatum=self.root.ids.Leveringsdatum.text)
         self.root.ids.run_button.text = 'BOM list updated!'
 
 

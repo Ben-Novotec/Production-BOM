@@ -59,7 +59,7 @@ MDBoxLayout:
         MDGridLayout:
             cols: 2
             spacing: ['20dp', 0]
-            size_hint_y: 2
+            size_hint_y: 3
 
             MDLabel:
                 text: 'PartSupplier:'
@@ -79,6 +79,11 @@ MDBoxLayout:
             MDTextField:
                 id: Besteldatum
                 text: app.today
+            MDLabel:
+                text: 'Leveringsdatum:'
+                halign: 'right'
+            MDTextField:
+                id: Leveringsdatum
 
         MDSeparator
 
